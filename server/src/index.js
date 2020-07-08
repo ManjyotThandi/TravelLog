@@ -28,6 +28,9 @@ app.use(cors({
     origin: process.env.CORS_ORIGIN,
 }));
 
+// JSON body parsing middleware
+app.use(express.json());
+
 app.get('/', (req, res) => {
     res.json({
         message: 'In index.js',
