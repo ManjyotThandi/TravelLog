@@ -30,7 +30,7 @@ app.use(cors({
 
 app.get('/', (req, res) => {
     res.json({
-        message: 'In Index.js',
+        message: 'In index.js',
     });
 });
 
