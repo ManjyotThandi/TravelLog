@@ -5,7 +5,16 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 // adds cross origin resource sharing header
 const cors = require('cors');
+const mongoose = require('mongoose');
 const middleware = require('./middleware');
+const logs = require('./api/logs');
+
+require('dotenv').config();
+
+// create mongo connection
+mongoose.connect(process.env.DATABASE_URL, {
+    useNewUrlParser: true,
+});
 
 const app = express();
 
@@ -16,22 +25,25 @@ app.use(helmet());
 
 // This will allow our react app to send requests to our backend
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: process.env.CORS_ORIGIN,
 }));
 
 app.get('/', (req, res) => {
     res.json({
-        message: 'Hello world',
+        message: 'In Index.js',
     });
 });
+
+// Like middleware as well. Allows us to seperate our code.
+app.use('/api/logs', logs);
 
 // This needs to be the last route so it doesn't always get activated
 app.use(middleware.notFound);
 
 app.use(middleware.errorHandler);
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 1337;
 
 app.listen(port, () => {
-  console.log('Listening on port 5000');
+  console.log('Listening on port 1137');
 });
