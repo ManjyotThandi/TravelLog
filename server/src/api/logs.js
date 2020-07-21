@@ -23,6 +23,7 @@ router.post('/', async (req, res, next) => {
     const createdEntry = await logEntry.save();
     res.json(createdEntry);
   } catch (error) {
+    // passes the error on to the next error handler.
     next(error);
   }
 });
