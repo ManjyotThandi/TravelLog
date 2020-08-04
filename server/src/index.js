@@ -18,6 +18,7 @@ mongoose.connect(process.env.DATABASE_URL, {
 
 const app = express();
 
+// for logging purposes
 app.use(morgan('common'));
 
 // allows use to secure our headers just a little bit more
