@@ -12,3 +12,7 @@ body {
    height: 24px;
    width: 24px;
 }
+
+.popup {
+  max-width: 300px;
+}
