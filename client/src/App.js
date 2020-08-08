@@ -14,6 +14,7 @@ function App() {
     zoom: 2
   });
   const [showPopup, setPopup] = useState({});
+  const [addEntryLocation, setAddEntryLocation] = useState({});
 
   // equiv of componentdidmount
   useEffect(() => {
@@ -24,12 +25,23 @@ function App() {
     })
   }, [])
 
+  let showAddMarkerPopup = (event) => {
+    // Destructuring an array. lngLat is an array with values [longitude, latitude]
+    const [longitude, latitude] = event.lngLat;
+
+    setAddEntryLocation({
+      longitude,
+      latitude
+    });
+
+  }
 
   return (
     <ReactMapGL
       {...viewport}
       onViewportChange={(viewport) => setViewport(viewport)}
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+      onDblClick={showAddMarkerPopup}
     >
       {
         logEntries.map(entry => (
@@ -37,7 +49,6 @@ function App() {
             <Marker key={entry._id} latitude={entry.latitude} longitude={entry.longitude}>
               <div onClick={() => {
                 setPopup({
-                  ...showPopup,
                   [entry._id]: true
                 })
               }}>
@@ -58,16 +69,14 @@ function App() {
                   longitude={entry.longitude}
                   latitude={entry.latitude}
                   closeButton={true}
-                  closeOnClick = {true}
+                  closeOnClick={true}
                   onClose={() => {
-                    setPopup({
-                      ...showPopup,
-                      [entry._id]: false
-                    })
+                    setPopup({})
                   }}>
-                  <div className = "popup">
+                  <div className="popup">
                     <h3>{entry.title}</h3>
                     <p>{entry.comments}</p>
+                    <small>Visited on: {new Date(entry.visitDate).toLocaleDateString()}</small>
                   </div>
                 </Popup>
               )
