@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import ReactMapGL, { Marker, Popup } from 'react-map-gl';
-
+import LogEntryForm from './LogEntryForm'
 import { listLogEntries } from './API'
 
 function App() {
@@ -83,6 +83,37 @@ function App() {
             }
           </>
         ))
+      }
+      {
+        addEntryLocation.longitude && (
+          <>
+          <Marker latitude={addEntryLocation.latitude} longitude={addEntryLocation.longitude}>
+              <div>
+                <svg
+                  className="markerNew"
+                  viewBox="0 0 24 24"
+                  strokeWidth="2"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round" >
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle>
+                </svg>
+              </div>
+            </Marker>
+            <Popup
+              longitude={addEntryLocation.longitude}
+              latitude={addEntryLocation.latitude}
+              closeButton={true}
+              closeOnClick={false}
+              onClose={() => {
+                setAddEntryLocation({})
+              }}>
+              <div className="popup">
+                <LogEntryForm/>
+            </div>
+            </Popup>
+          </>
+        )
       }
     </ReactMapGL>
   );

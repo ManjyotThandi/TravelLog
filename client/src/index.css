@@ -13,6 +13,18 @@ body {
    width: 24px;
 }
 
+.markerNew {
+  stroke: red;
+  height: 24px;
+  width: 24px;
+}
+
 .popup {
   max-width: 300px;
+}
+
+.entry-form label {
+  margin: 0.5rem;
+  display: block;
+  width: 100%;
 }
