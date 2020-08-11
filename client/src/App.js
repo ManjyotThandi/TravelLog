@@ -109,7 +109,7 @@ function App() {
                 setAddEntryLocation({})
               }}>
               <div className="popup">
-                <LogEntryForm/>
+                <LogEntryForm location ={addEntryLocation}/>
             </div>
             </Popup>
           </>
