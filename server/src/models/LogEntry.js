@@ -35,6 +35,7 @@ const logEntrySchema = new Schema({
     ...requiredNumber,
   },
   visitDate: requiredDate,
+  user: [{ type: Schema.Types.ObjectId, ref: 'User' }],
 },
 {
   timestamps: true,

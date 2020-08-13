@@ -8,6 +8,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const middleware = require('./middleware');
 const logs = require('./api/logs');
+const { User } = require('./models/User');
 
 require('dotenv').config();
 
@@ -38,6 +39,16 @@ app.get('/', (req, res) => {
     });
 });
 
+app.post('/register', (req, res) => {
+    const user = new User(req.body);
+    user.save((err) => {
+        if (err) {
+            res.json({ success: false });
+        }
+        res.json({ success: true });
+    });
+});
+
 // Like middleware as well. Allows us to seperate our code.
 app.use('/api/logs', logs);
 
@@ -49,5 +60,5 @@ app.use(middleware.errorHandler);
 const port = process.env.PORT || 1337;
 
 app.listen(port, () => {
-  console.log('Listening on port 1337');
+    console.log('Listening on port 1337');
 });
