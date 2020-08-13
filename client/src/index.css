@@ -19,6 +19,9 @@ body {
   width: 24px;
 }
 
+.error {
+  color: red;
+}
 .popup {
   width: 20vw;
   padding: 1rem;

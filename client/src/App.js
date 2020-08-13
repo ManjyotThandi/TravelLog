@@ -16,16 +16,20 @@ function App() {
   const [showPopup, setPopup] = useState({});
   const [addEntryLocation, setAddEntryLocation] = useState({});
 
-  // equiv of componentdidmount
-  useEffect(() => {
+  const getEntries = () => {
     fetch(`http://localhost:1337/api/logs`).then(response => {
       return response.json()
     }).then(data => {
       setLogEntries(data.results);
     })
+  }
+  // equiv of componentdidmount
+  useEffect(() => {
+    getEntries();
   }, [])
 
   let showAddMarkerPopup = (event) => {
+    console.log(event)
     // Destructuring an array. lngLat is an array with values [longitude, latitude]
     const [longitude, latitude] = event.lngLat;
 
@@ -87,7 +91,7 @@ function App() {
       {
         addEntryLocation.longitude && (
           <>
-          <Marker latitude={addEntryLocation.latitude} longitude={addEntryLocation.longitude}>
+            <Marker latitude={addEntryLocation.latitude} longitude={addEntryLocation.longitude}>
               <div>
                 <svg
                   className="markerNew"
@@ -109,8 +113,13 @@ function App() {
                 setAddEntryLocation({})
               }}>
               <div className="popup">
-                <LogEntryForm location ={addEntryLocation}/>
-            </div>
+                {/* The on close function closes this popup. It is passed as a prop and executed in the LogEntryForm once done. getEntries will 
+                call the API to get all of the entries again essentially updating state and showing them all on the map */}
+                <LogEntryForm onClose={() => {
+                  setAddEntryLocation({});
+                  getEntries();
+                }} location={addEntryLocation} />
+              </div>
             </Popup>
           </>
         )
