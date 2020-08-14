@@ -49,6 +49,21 @@ app.post('/register', (req, res) => {
     });
 });
 
+app.post('/login', (req, res) => {
+    const { username } = req.body;
+    // Username will have to be unique so we can search up on that user
+    User.findOne({ username }, (err, user) => {
+        if (!user) return res.json({ loginSuccess: false });
+
+        // if we did come back with a result - check to see if the passwords match
+        user.comparePassword(req.body.password, (err, isMatch) => {
+            if (err) return res.json({ loginSuccess: false, message: 'Incorrect Password!' });
+        });
+
+        // if the passwords also match - send the user a jwt to attach to their name to keep them logged in
+        
+    });
+});
 // Like middleware as well. Allows us to seperate our code.
 app.use('/api/logs', logs);
 
