@@ -60,8 +60,14 @@ app.post('/login', (req, res) => {
             if (err) return res.json({ loginSuccess: false, message: 'Incorrect Password!' });
         });
 
-        // if the passwords also match - send the user a jwt to attach to their name to keep them logged in
-        
+        // if the passwords also match - send the user a jwt to attach to their name to keep them logged in. This token also gets saved in db
+        user.generateToken((err, user) => {
+            if (err) {
+                return res.json({ loginSuccess: false, message: 'Incorrect Password. Not able to generate token!' });
+            }
+            // set the cookie. The db now has the token stored aganist the user as well. user.token was set in generateToken
+            return res.cookie({ userToken: user.token }).json({ loginSuccess: 'true' });
+        });
     });
 });
 // Like middleware as well. Allows us to seperate our code.
