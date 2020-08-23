@@ -1,11 +1,12 @@
 /* eslint-disable no-console */
 const { Router } = require('express');
+const {auth} = require('../middleware');
 
 const LogEntry = require('../models/LogEntry');
 
 const router = Router();
 
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
     const allResults = await LogEntry.find();
     res.json({

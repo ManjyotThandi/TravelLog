@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import Map from "./Map";
 import HomePage from "./HomePage";
+import Login from "./Login";
 
 function App() {
   return (
@@ -16,7 +17,10 @@ function App() {
         <Route exact path="/">
           <HomePage />
         </Route>
-        <Route path="/log">
+        <Route exact path="/login">
+          <Login />
+        </Route>
+        <Route exact path="/log">
           <Map />
         </Route>
       </Switch>

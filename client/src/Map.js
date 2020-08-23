@@ -17,7 +17,10 @@ function Map() {
   const [addEntryLocation, setAddEntryLocation] = useState({});
 
   const getEntries = () => {
-    fetch(`http://localhost:1337/api/logs`).then(response => {
+    fetch(`http://localhost:1337/api/logs`, {
+      method: 'GET',
+      credentials: 'include'
+    }).then(response => {
       return response.json()
     }).then(data => {
       setLogEntries(data.results);

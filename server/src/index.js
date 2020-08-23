@@ -5,6 +5,8 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 // adds cross origin resource sharing header
 const cors = require('cors');
+// to set and read cookies
+const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const middleware = require('./middleware');
 const logs = require('./api/logs');
@@ -28,10 +30,14 @@ app.use(helmet());
 // This will allow our react app to send requests to our backend
 app.use(cors({
     origin: process.env.CORS_ORIGIN,
+    credentials: true,
 }));
 
 // JSON body parsing middleware
 app.use(express.json());
+
+// To read and set cookies
+app.use(cookieParser());
 
 app.get('/', (req, res) => {
     res.json({
@@ -66,7 +72,7 @@ app.post('/login', (req, res) => {
                 return res.json({ loginSuccess: false, message: 'Incorrect Password. Not able to generate token!' });
             }
             // set the cookie. The db now has the token stored aganist the user as well. user.token was set in generateToken
-            return res.cookie({ userToken: user.token }).json({ loginSuccess: 'true' });
+            return res.cookie('userToken', user.token, { secure: true }).json({ loginSuccess: 'true' });
         });
     });
 });

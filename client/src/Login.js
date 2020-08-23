@@ -1,24 +1,27 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from "react-router-dom";
 import { Button, FormControl, InputLabel, Input, FormHelperText, TextField } from '@material-ui/core';
 import { Link } from "react-router-dom";
 
-function HomePage() {
+function Login(props) {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
-
+    // Gives us access to the history instance to navigate
+    const history = useHistory();
     const formSubmit = (event) => {
         event.preventDefault();
         const formData = { username: userName, password };
-        fetch(`http://localhost:1337/register`, {
+        fetch(`http://localhost:1337/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
+            credentials: 'include',
             body: JSON.stringify(formData),
         }).then(response => {
             return response.json();
         }).then(data => {
-            console.log('Posted succesfully!');
+            console.log(data);
         })
             .catch(error => {
                 console.log(error);
@@ -56,4 +59,4 @@ function HomePage() {
     )
 }
 
-export default HomePage;
+export default Login;
